@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5015:5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      - db
+volumes:
+  db_data:
+
